@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Products</title>
+
+</head>
+<body>
+
+<div align="left">
+<form th:action="@{/filter}" th:object="${product}" method="post">
+    <table border="1">
+        <tr>
+            <td>Min Price</td>
+            <td><input type="text" name = minPrice th:value="${param.minPrice}"></td>
+        </tr>
+        <tr>
+            <td>Max Price</td>
+            <td><input type="text" name = maxPrice th:value="${param.maxPrice}"></td>
+        </tr>
+    </table>
+    <button type="submit">Filter</button>
+
+</form>
+</div>
+<div align="center">
+
+<table title="Products"  border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th></th>
+    </tr>
+    <tr th:each="product: ${productPage.content}">
+
+        <td th:text="${product.id}">Id</td>
+        <td th:text="${product.name}">Name</td>
+        <td th:text="${product.price}">Price</td>
+
+        <td>
+        <a  th:href="@{/delete/{id}(id=${product.id})}">Delete</a>
+        </td>
+        <td>
+            <a th:href="@{/edit/{id}(id=${product.id})}">Edit</a>
+        </td>
+    </tr>
+</table>
+    <h3><a href="/new">Add new product</a></h3>
+
+    <ul class="pagination" >
+        <li th:each="pageNumber : ${numbers}"
+            th:class="${pageNumber == productPage.number} ? active">
+    <a th:href="@{'/?page=' + ${pageNumber}}"
+    th:text="${pageNumber + 1}"></a>
+    </li>
+    </ul>
+</div>
+</body>
+</html>
